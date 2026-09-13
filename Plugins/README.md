@@ -12,8 +12,6 @@ Descriptions below are the repositories' own, as they appeared when the list was
 
 Persistent cross-session memory. Adds session-start context injection and a searchable observation history.
 
-*Note: this one is already installed in the local Claude Code setup — its skills (`mem-search`, `make-plan`, `timeline-report` and others) appear in the available skills list.*
-
 ## graphify
 
 <https://github.com/safishamsi/graphify>
