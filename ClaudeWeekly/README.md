@@ -6,7 +6,7 @@ Notes kept from *This week in Claude Code*, the weekly email from the Claude Cod
 
 **<https://code.claude.com/docs/en/whats-new>**
 
-This is the official archive — the same weekly digest in documentation form, and it goes back to Week 13 (March 2026). Each week has its own page:
+This is the official archive — the weekly digest in documentation form, going back to Week 13 (March 2026). Each week has its own page:
 
 ```
 https://code.claude.com/docs/en/whats-new/2026-w34
@@ -14,7 +14,19 @@ https://code.claude.com/docs/en/whats-new/2026-w33
 ...
 ```
 
-Every entry links through to the relevant docs page, and the [full changelog](https://code.claude.com/docs/en/changelog) carries the bug fixes and minor improvements the digest leaves out.
+Every entry links through to the relevant docs page.
+
+**The archive lags the email, and has gaps.** Checked 14 September 2026: the index ended at **Week 34** (Aug 17–21) while the newsletter had already delivered **Week 37** (Sep 11–12) — `2026-w35`, `2026-w36` and `2026-w37` all returned 404. Week 31 is missing entirely, between Weeks 30 and 32, so this is not simply a publishing delay.
+
+Three sources, three different purposes:
+
+| Source | Currency | What it gives you |
+|---|---|---|
+| The email | Earliest | The digest, with commentary and config examples |
+| [Changelog](https://code.claude.com/docs/en/changelog) | Current — listed 2.1.270 the day it shipped | Every change, but no framing or examples |
+| [Archive](https://code.claude.com/docs/en/whats-new) | Trails by ~3 weeks, with gaps | Catching up on older weeks |
+
+This is why keeping notes here is worth the effort: an issue in your inbox may not be on the web at all yet.
 
 ## Subscribing
 
