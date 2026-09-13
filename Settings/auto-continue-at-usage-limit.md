@@ -1,6 +1,6 @@
 # `autoContinueAtUsageLimit`
 
-Resume an interrupted task automatically once a usage limit resets, instead of leaving the session waiting for you to come back and answer a dialog.
+Resume an interrupted task automatically once a usage limit resets, instead of leaving the session waiting for you to come back and answer a dialog. Off by default — it does nothing until you turn it on.
 
 ```json
 // ~/.claude/settings.json
@@ -51,9 +51,11 @@ If an automatic continue is cancelled, the session says so and tells you the rem
 
 This pairs with quota segments in a status line. [`../StatusLine/`](../StatusLine/) renders the 5-hour and 7-day quotas as `S:` and `W:`, so an approaching limit is visible before it stops anything — and with `autoContinueAtUsageLimit` on, hitting one becomes a pause rather than a halt.
 
-## A caveat on the default
+## Off by default — you have to enable it
 
-The key is optional, and Claude Code's description only documents what the *off* state does. What you get when the key is absent is not stated, so setting it explicitly is the only way to be sure which behavior you have.
+The key is absent from a fresh config, and the behavior you get without it is the *off* behavior: the session stops at the limit and the dialog offers waiting as a choice you have to accept.
+
+Nothing happens automatically until you add the key and set it to `true`. Then start a new session — settings are read at startup, so turning it on mid-session does not affect the session you are in.
 
 ---
 
