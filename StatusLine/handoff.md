@@ -9,11 +9,26 @@ A status line for Claude Code showing working directory, git branch, context usa
 | Segment | Meaning |
 |---|---|
 | `~/src` | Working directory, home collapsed to `~` |
-| `main` | Git branch — omitted entirely outside a repo |
+| `main` | Git branch — green when clean, yellow `main*` when the tree is dirty. Omitted entirely outside a repo. |
 | `9%` | How full the context window is right now |
 | `S:37%` | Session quota — 5-hour rolling window |
 | `W:17%` | Weekly quota — 7-day rolling window |
 | `Opus 5` | Active model display name |
+
+## Uncommitted changes
+
+The branch segment doubles as a dirty indicator:
+
+| Working tree | Renders as |
+|---|---|
+| Clean | `main` in green |
+| Uncommitted changes | `main*` in yellow |
+
+Untracked files count as dirty. Both signals carry the same information, so the state still reads on a terminal without color.
+
+Detection is a single `git status --porcelain` piped through `head -n 1`, so it short-circuits instead of enumerating a large diff, and it only runs once the directory is already confirmed to be a repo. Measured cost of a full render including this call is roughly 45 ms.
+
+Colors use standard ANSI SGR codes (`32` green, `33` yellow) rather than fixed RGB, so they follow your terminal palette.
 
 ## What the numbers actually mean
 
@@ -78,6 +93,10 @@ Each case below was run against the script with a real payload, not reasoned abo
 | `spend_limit` present | ignored, as intended | pass |
 | Session start, nothing populated | `~ \| Opus 5` | pass |
 | No `jq` on PATH | quotas omitted, context correct | pass |
+| Clean repo | branch green, no marker | pass |
+| Modified file | branch yellow, `main*` | pass |
+| Untracked file only | branch yellow, `main*` | pass |
+| Detached HEAD | branch segment absent, no stray `*` | pass |
 
 Two rounding details worth knowing:
 

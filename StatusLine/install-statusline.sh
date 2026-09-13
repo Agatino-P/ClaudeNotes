@@ -5,6 +5,9 @@
 #   ~/src | main | 9% | S:37% | W:17% | Opus 5
 #   dir   branch  ctx  5h-quota weekly  model
 #
+# The branch is green when the working tree is clean, and yellow with a
+# trailing asterisk (main*) when there are uncommitted changes.
+#
 # Safe to re-run. Existing settings.json keys are preserved; only "statusLine"
 # is added or replaced. Any previous settings.json is backed up first.
 #
@@ -61,8 +64,12 @@ else
 fi
 
 branch=""
+dirty=""
 if [ -n "$dir" ] && git --no-optional-locks -C "$dir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   branch=$(git --no-optional-locks -C "$dir" branch --show-current 2>/dev/null)
+  # One status call, short-circuited with head -n 1 so it does not enumerate a large diff;
+  # any output (including untracked files, the porcelain default) means the tree is dirty.
+  dirty=$(git --no-optional-locks -C "$dir" status --porcelain 2>/dev/null | head -n 1)
 fi
 
 display_dir=$dir
@@ -84,10 +91,25 @@ weekly=""
 
 dim=$(printf '\033[2m')
 reset=$(printf '\033[0m')
+green=$(printf '\033[32m')
+yellow=$(printf '\033[33m')
 sep="${dim}|${reset}"
 
+# Branch is green with no marker when clean, yellow with a trailing "*" (inside the colored
+# span) when dirty, and color is reset before the asterisk is followed by the separator so the
+# dim "|" is never tinted. Standard SGR codes are used so the color follows the terminal's
+# own palette rather than a hardcoded RGB value.
+branch_display=""
+if [ -n "$branch" ]; then
+  if [ -n "$dirty" ]; then
+    branch_display="${yellow}${branch}*${reset}"
+  else
+    branch_display="${green}${branch}${reset}"
+  fi
+fi
+
 out="$display_dir"
-[ -n "$branch" ] && out="$out $sep $branch"
+[ -n "$branch_display" ] && out="$out $sep $branch_display"
 [ -n "$ctx" ] && out="$out $sep $ctx"
 [ -n "$session" ] && out="$out $sep $session"
 [ -n "$weekly" ] && out="$out $sep $weekly"

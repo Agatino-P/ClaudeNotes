@@ -6,6 +6,8 @@ A Claude Code status line showing working directory, git branch, context usage, 
 ~/src | main | 9% | S:37% | W:17% | Opus 5
 ```
 
+The branch name is colored: **green** when the working tree is clean, **yellow with a trailing asterisk** (`main*`) when there are uncommitted changes — untracked files included.
+
 ## To set this up on another machine
 
 Copy `install-statusline.sh` to that machine and run:
